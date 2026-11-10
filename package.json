@@ -1,0 +1,20 @@
+{
+  "name": "project-management-tool",
+  "version": "1.0.0",
+  "description": "Enterprise-grade Full-Stack Project Management Tool (Trello & Asana style)",
+  "scripts": {
+    "postinstall": "cd backend && npm install",
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js",
+    "test": "node backend/tests/api.test.js"
+  },
+  "keywords": [
+    "project-management",
+    "trello",
+    "asana",
+    "kanban",
+    "fullstack"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "ISC"
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - ProjectFlow</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-xl);
+    }
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+    .auth-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+    }
+    .auth-alert {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+    .auth-alert.error {
+      background-color: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      display: block;
+    }
+    .auth-alert.success {
+      background-color: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      display: block;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.75rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-logo">P</div>
+      <span class="brand-name" style="color: var(--text-primary);">ProjectFlow</span>
+    </div>
+
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-subtitle">Start collaborating with your team in real time.</p>
+
+    <div id="auth-alert" class="auth-alert"></div>
+
+    <form id="register-form">
+      <div class="form-group">
+        <label class="form-label" for="reg-name">Full Name</label>
+        <input type="text" id="reg-name" class="form-control" placeholder="Alex Morgan" required autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reg-email">Email Address</label>
+        <input type="email" id="reg-email" class="form-control" placeholder="alex@company.com" required autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reg-password">Password</label>
+        <input type="password" id="reg-password" class="form-control" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+        <input type="password" id="reg-confirm-password" class="form-control" placeholder="Re-enter your password" minlength="6" required autocomplete="new-password">
+      </div>
+
+      <button type="submit" id="register-submit-btn" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">
+        Create Account
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Already have an account? <a href="/login.html" class="font-medium">Sign in</a>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Route guard: if already logged in, redirect to dashboard
+    initAuthGuard(true);
+
+    const form = document.getElementById('register-form');
+    const alertEl = document.getElementById('auth-alert');
+    const submitBtn = document.getElementById('register-submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertEl.className = 'auth-alert';
+      alertEl.style.display = 'none';
+
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+      if (password !== confirmPassword) {
+        alertEl.textContent = 'Passwords do not match';
+        alertEl.className = 'auth-alert error';
+        alertEl.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account...';
+
+      try {
+        await registerUser({ name, email, password, confirmPassword });
+        alertEl.textContent = 'Account created successfully! Redirecting...';
+        alertEl.className = 'auth-alert success';
+        alertEl.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 500);
+      } catch (err) {
+        alertEl.textContent = err.message || 'Registration failed';
+        alertEl.className = 'auth-alert error';
+        alertEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+      }
+    });
+  </script>
+</body>
+</html>

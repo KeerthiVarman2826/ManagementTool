@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectFlow - Modern Project Management Tool</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: 3.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      max-width: 800px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: #475569;
+      max-width: 620px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 4rem auto 0;
+      text-align: left;
+    }
+    .feature-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-section">
+    <div class="hero-badge">
+      <span>✨ Enterprise-Grade Full-Stack Tool</span>
+    </div>
+    <h1 class="hero-title">Manage projects, collaborate in real-time, and ship faster.</h1>
+    <p class="hero-subtitle">
+      A complete, modern project management suite inspired by Trello and Asana. Featuring interactive Kanban boards, role permissions, task assignments, live comments, and instant notifications.
+    </p>
+
+    <div class="hero-cta">
+      <a href="/login.html" class="btn btn-primary" style="padding: 0.85rem 1.75rem; font-size: 1rem;">Log In to Workspace</a>
+      <a href="/register.html" class="btn btn-secondary" style="padding: 0.85rem 1.75rem; font-size: 1rem;">Create Free Account</a>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+          </svg>
+        </div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Kanban Boards</h3>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);">Interactive drag-and-drop task boards with custom columns, filters, and priority tags.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Real-Time Socket.IO</h3>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);">Instant updates when team members move cards, create tasks, add comments, or invite colleagues.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Team Permissions</h3>
+        <p style="font-size: 0.875rem; color: var(--text-secondary);">Owner, Admin, and Member role-based access control protecting private project data.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Quick redirect if already authenticated
+    if (getToken()) {
+      window.location.href = '/dashboard.html';
+    }
+  </script>
+</body>
+</html>

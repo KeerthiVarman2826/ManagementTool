@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ProjectFlow</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-xl);
+    }
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+    .auth-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+    }
+    .auth-alert {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+    .auth-alert.error {
+      background-color: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      display: block;
+    }
+    .auth-alert.success {
+      background-color: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      display: block;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.75rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-logo">P</div>
+      <span class="brand-name" style="color: var(--text-primary);">ProjectFlow</span>
+    </div>
+
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-subtitle">Enter your credentials to access your workspace.</p>
+
+    <div id="auth-alert" class="auth-alert"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email Address</label>
+        <input type="email" id="login-email" class="form-control" placeholder="name@company.com" required autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.375rem;">
+          <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+        </div>
+        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">
+        Sign In
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="/register.html" class="font-medium">Sign up for free</a>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Route guard: if already logged in, redirect to dashboard
+    initAuthGuard(true);
+
+    const form = document.getElementById('login-form');
+    const alertEl = document.getElementById('auth-alert');
+    const submitBtn = document.getElementById('login-submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertEl.className = 'auth-alert';
+      alertEl.style.display = 'none';
+
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+
+      try {
+        await loginUser({ email, password });
+        alertEl.textContent = 'Login successful! Redirecting...';
+        alertEl.className = 'auth-alert success';
+        alertEl.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 500);
+      } catch (err) {
+        alertEl.textContent = err.message || 'Invalid email or password';
+        alertEl.className = 'auth-alert error';
+        alertEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

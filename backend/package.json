@@ -1,0 +1,34 @@
+{
+  "name": "project-management-tool-backend",
+  "version": "1.0.0",
+  "description": "Full-stack Project Management Tool Backend with Express, MongoDB, and Socket.IO",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node tests/api.test.js"
+  },
+  "keywords": [
+    "project-management",
+    "kanban",
+    "trello",
+    "asana",
+    "express",
+    "mongodb",
+    "socket.io"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
+  }
+}
